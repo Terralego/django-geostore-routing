@@ -10,13 +10,11 @@ Terralego backend app
    installation
    configuration
    use
-   vectortiles
    routing
-   tilesgroupaccess
 
-.. |Build Status| image:: https://travis-ci.org/Terralego/django-geostore.svg?branch=master
-   :target: https://travis-ci.org/Terralego//django-geostore
-.. |Maintainability| image:: https://api.codeclimate.com/v1/badges/b6119d8175fa6f5f5949/maintainability
-   :target: https://codeclimate.com/github/Terralego/django-geostore/maintainability
-.. |codecov| image:: https://codecov.io/gh/Terralego/django-geostore/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/Terralego/django-geostore
+.. |Build Status| image:: https://travis-ci.org/Terralego/django-geostore-routing.svg?branch=master
+   :target: https://travis-ci.org/Terralego//django-geostore-routing
+.. |Maintainability| image:: https://api.codeclimate.com/v1/badges/d68cfbf250ff1bd8d91f/maintainability
+   :target: https://codeclimate.com/github/Terralego/django-geostore-routing/maintainability
+.. |codecov| image:: https://codecov.io/gh/Terralego/django-geostore-routing/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/Terralego/django-geostore-routing

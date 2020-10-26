@@ -15,14 +15,14 @@ Prerequisites
   INSTALLED_APPS = (
     ...
     "geostore",
-    "geostore.routing",
+    "geostore_routing",
     ...
   )
 
 Settings up
 -----------
 
-pgRouting needs to update a table that contains all linestring to create topological connection.
+pgRouting needs to update a table that contains all linestring to create topological connections.
 You need to execute a command to create topology at first. Once, after every feature update topology will be automatically updated.
 
 Commands

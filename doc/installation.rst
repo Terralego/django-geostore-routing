@@ -9,21 +9,15 @@ DATABASE
 
 Minimum configuration :
  * Python 3.6+
- * PostgreSQL 10
- * PostGIS 2.4
-
-And if you want to use Routing :
-
- * PgRouting 2.5
+ * PostgreSQL 10+
+ * PostGIS 2.4+
+ * PgRouting 2.5+
 
 Recommended configuration :
  * Python 3.8
- * PostgreSQL 11
- * PostGIS 2.5
-
-And if you want to use Routing :
-
- * PgRouting 2.6
+ * PostgreSQL 12
+ * PostGIS 3
+ * PgRouting 3
 
 Your final django project should use django.contrib.gis.backend.postgis as default DATABASE backend
 
@@ -56,19 +50,19 @@ From Pypi:
 
 ::
 
-    pip install django-geostore
+    pip install django-geostore-routing
 
 From Github:
 
 ::
 
-    pip install -e https://github.com/Terralego/django-geostore.git@master#egg=geostore
+    pip install -e https://github.com/Terralego/django-geostore-routing.git@master#egg=django-geostore-routing
 
 With git
 --------
 
 ::
 
-    git clone https://github.com/Terralego/django-geostore.git
-    cd django-geostore
+    git clone https://github.com/Terralego/django-geostore-routing.git
+    cd django-geostore-routing
     python setup.py install

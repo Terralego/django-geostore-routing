@@ -20,7 +20,7 @@ setup(
     include_package_data=True,
     author="Makina Corpus",
     author_email="terralego-pypi@makina-corpus.com",
-    description='Django geographic store and vector tile generation',
+    description='PGRouting and endpoints plugin for django-geostore',
     long_description=README + '\n\n' + CHANGES,
     description_content_type="text/markdown",
     long_description_content_type="text/markdown",

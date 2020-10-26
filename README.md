@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/Terralego/django-geostore-routing.svg?branch=master)](https://travis-ci.org/Terralego/django-geostore-routing/)
 [![codecov](https://codecov.io/gh/Terralego/django-geostore-routing/branch/master/graph/badge.svg)](https://codecov.io/gh/Terralego/django-geostore-routing)
-[![Maintainability](https://api.codeclimate.com/v1/badges/b6119d8175fa6f5f5949/maintainability)](https://codeclimate.com/github/Terralego/django-geostore-routing/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d68cfbf250ff1bd8d91f/maintainability)](https://codeclimate.com/github/Terralego/django-geostore-routing/maintainability)
 [![Documentation Status](https://readthedocs.org/projects/django-geostore-routing/badge/?version=latest)](https://django-geostore-routing.readthedocs.io/en/latest/?badge=latest)
 
 ![Python Version](https://img.shields.io/badge/python-%3E%3D%203.6-blue.svg)
