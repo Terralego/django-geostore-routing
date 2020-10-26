@@ -183,7 +183,7 @@ class UpdateTopologyTestCase(TestCase):
         self.assertTrue(Routing.update_topology(self.layer, tolerance=0.0001))
 
     @mock.patch('geostore_routing.settings.GEOSTORE_ROUTING_CELERY_ASYNC', new_callable=mock.PropertyMock)
-    @mock.patch('geostore_routing.signals.execute_async_func')
+    @mock.patch('geostore.signals.execute_async_func')
     @override_settings(CELERY_ALWAYS_EAGER=False)
     def test_remove_geom_update_routing(self, mock_async, mock_routing):
         def side_effect(async_func, args):
@@ -215,7 +215,7 @@ class UpdateTopologyTestCase(TestCase):
         self.assertNotIn(self.other_feature.pk, id_new_features)
 
     @mock.patch('geostore_routing.settings.GEOSTORE_ROUTING_CELERY_ASYNC', new_callable=mock.PropertyMock)
-    @mock.patch('geostore_routing.signals.execute_async_func')
+    @mock.patch('geostore.signals.execute_async_func')
     @override_settings(CELERY_ALWAYS_EAGER=False)
     def test_update_geom_update_routing(self, mock_async, mock_routing):
         def side_effect(async_func, args):
