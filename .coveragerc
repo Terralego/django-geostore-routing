@@ -3,7 +3,7 @@ omit =
     */tests*
     */migrations*
     */lib*
-    test_geostore/*
+    test_geostore_routing/*
     doc/*
     manage.py
 

@@ -15,8 +15,8 @@ test_require = [
 ]
 
 setup(
-    name='django-geostore',
-    version=open(os.path.join(HERE, 'geostore', 'VERSION.md')).read().strip(),
+    name='django-geostore-routing',
+    version=open(os.path.join(HERE, 'geostore_routing', 'VERSION.md')).read().strip(),
     include_package_data=True,
     author="Makina Corpus",
     author_email="terralego-pypi@makina-corpus.com",
@@ -42,20 +42,10 @@ setup(
     ],
     install_requires=[
         'django>=2.2',
-        'django-token-tools',
-        'djangorestframework>=3.10',
-        "djangorestframework-gis>=0.15",
-        "gpxpy",
-        "simplekml",
-        'django-filter',
-        "deepmerge",
-        "requests>=2.19",
-        "mercantile>=1.0",
-        "psycopg2",
-        "Fiona",
-        "Pillow",
-        "jsonschema",
-        "celery",
+        'djangorestframework',
+        'djangorestframework-gis',
+        # 'django-geostore',
+        "django-geostore@https://github.com/Terralego/django-geostore/archive/improve_routing.tar.gz"
     ],
     tests_require=test_require,
     extras_require={

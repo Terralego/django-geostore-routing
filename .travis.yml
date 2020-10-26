@@ -1,4 +1,4 @@
-dist: focal
+dist: bionic
 
 language: python
 
@@ -19,8 +19,8 @@ addons:
   postgresql: '12'
   apt:
     packages:
-      - postgresql-12-postgis-3
-      - postgresql-12-pgrouting
+      - postgresql-10-postgis-2.4
+      - postgresql-10-pgrouting
 
 stages:
 - lint
@@ -49,7 +49,6 @@ after_failure:
 
 script:
 - coverage run ./manage.py test
-- coverage run -a ./manage.py test --settings=test_geostore.settings_with_customs geostore.tests.test_views.test_vector_tiles.VectorTilesTestCase.test_layer_tilejson_with_custom_hostnames
 
 after_success:
   - codecov
@@ -64,18 +63,9 @@ jobs:
     - pip install flake8
     before_script: skip
     script:
-    - flake8 geostore test_geostore
+    - flake8 geostore test_geostore_routing
     after_success: skip
 
-  - stage: test
-    name: "Test Without pgrouting"
-    before_script:
-      - psql -c "CREATE USER travis_ci_test WITH ENCRYPTED PASSWORD 'travis_ci_test';" -U
-        postgres
-      - psql -c "ALTER USER travis_ci_test WITH SUPERUSER;" -U postgres
-      - psql -c 'CREATE DATABASE travis_ci_test WITH OWNER travis_ci_test;' -U postgres
-      - psql -d travis_ci_test -c 'CREATE EXTENSION postgis;'
-    script: coverage run ./manage.py test --settings=test_geostore.settings_without_routing --exclude-tag=routing
   - stage: deploy
     install: skip
     before_script: skip
