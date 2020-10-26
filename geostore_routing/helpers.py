@@ -1,7 +1,8 @@
 import json
 
-from django.contrib.gis.db.models.functions import Distance
 from django import VERSION as DJANGO_VERSION
+from django.contrib.gis.db.models.functions import Distance
+
 if DJANGO_VERSION >= (3, 0):
     from django.contrib.gis.db.models.functions import GeometryDistance
 from django.contrib.gis.geos import GEOSGeometry, MultiLineString, LineString, Point

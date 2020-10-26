@@ -45,7 +45,7 @@ setup(
         'djangorestframework',
         'djangorestframework-gis',
         # 'django-geostore',
-        "django-geostore@https://github.com/Terralego/django-geostore/archive/improve_routing.tar.gz"
+        "django-geostore@https://github.com/Terralego/django-geostore/archive/read_to_split.tar.gz"
     ],
     tests_require=test_require,
     extras_require={

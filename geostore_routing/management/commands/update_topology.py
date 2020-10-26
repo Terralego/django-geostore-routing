@@ -1,9 +1,10 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from django.utils.translation import gettext as _
-
 from geostore.models import Layer
-from geostore.routing.helpers import Routing
+
+from geostore_routing import settings as app_settings
+from geostore_routing.helpers import Routing
 
 
 class Command(BaseCommand):
@@ -28,7 +29,7 @@ class Command(BaseCommand):
     @transaction.atomic()
     def handle(self, *args, **options):
         layer_pk = options.get('layer_pk', None)
-        tolerance = options.get('tolerance', 0.00001)
+        tolerance = options.get('tolerance', app_settings.GEOSTORE_ROUTING_TOLERANCE)
 
         try:
             layer = Layer.objects.get(pk=layer_pk)

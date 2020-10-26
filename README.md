@@ -1,14 +1,14 @@
-[![Build Status](https://travis-ci.org/Terralego/django-geostore.svg?branch=master)](https://travis-ci.org/Terralego/django-geostore/)
-[![codecov](https://codecov.io/gh/Terralego/django-geostore/branch/master/graph/badge.svg)](https://codecov.io/gh/Terralego/django-geostore)
-[![Maintainability](https://api.codeclimate.com/v1/badges/b6119d8175fa6f5f5949/maintainability)](https://codeclimate.com/github/Terralego/django-geostore/maintainability)
-[![Documentation Status](https://readthedocs.org/projects/django-geostore/badge/?version=latest)](https://django-geostore.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.org/Terralego/django-geostore-routing.svg?branch=master)](https://travis-ci.org/Terralego/django-geostore-routing/)
+[![codecov](https://codecov.io/gh/Terralego/django-geostore-routing/branch/master/graph/badge.svg)](https://codecov.io/gh/Terralego/django-geostore-routing)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b6119d8175fa6f5f5949/maintainability)](https://codeclimate.com/github/Terralego/django-geostore-routing/maintainability)
+[![Documentation Status](https://readthedocs.org/projects/django-geostore-routing/badge/?version=latest)](https://django-geostore-routing.readthedocs.io/en/latest/?badge=latest)
 
 ![Python Version](https://img.shields.io/badge/python-%3E%3D%203.6-blue.svg)
 ![Django Version](https://img.shields.io/badge/django-%3E%3D%202.2-blue.svg)
 
-# django-geostore
+# django-geostore-routing
 
-Dynamic geographic datastore with Vector Tiles generation from PostGIS and json schema definition and validation.
+PGRouting plugin and endpoint for django-geostore
 
 ## Requirements
 
@@ -17,9 +17,7 @@ Dynamic geographic datastore with Vector Tiles generation from PostGIS and json 
 * Python 3.6+
 * Postgresql 10+
 * PostGIS 2.4+
-
-Optionnal to use PgRouting functionnalities :
-  * PgRouting 2.5+
+* PgRouting 2.5+
 
 ### Libraries
 
@@ -40,14 +38,14 @@ recommended
 ### from PYPI
 
 ```bash
-pip install django-geostore
+pip install django-geostore-routing
 ```
 
 ### from GitHub
 
 ```bash
 git clone https://github.com/Terralego/django-geostore.git
-cd django-geostore
+cd django-geostore-routing
 python3 setup.py install
 ```
 
@@ -56,7 +54,7 @@ python3 setup.py install
 ```python
 INSTALLED_APPS = (
     'geostore',
-    #'geostore.routing'  # uncomment to enable routing functionality
+    'geostore_routing',
 )
 ```
 

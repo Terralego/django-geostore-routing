@@ -1,18 +1,18 @@
+from unittest import mock
+
 from django.contrib.gis.geos import LineString, Point
 from django.core.exceptions import ValidationError
 from django.db import connection
 from django.test import override_settings, TestCase, tag
 from django.urls import reverse
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-
-from unittest import mock
-
 from geostore import GeometryTypes
 from geostore.models import Feature, Layer
-from geostore.routing.helpers import Routing, RoutingException
-from geostore import settings as app_settings
 from geostore.tests.factories import FeatureFactory, UserFactory
-from geostore.tests.utils import get_files_tests
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
+
+from geostore_routing import settings as app_settings
+from geostore_routing.helpers import Routing, RoutingException
+from geostore_routing.tests.utils import get_files_tests
 
 
 @tag("routing")
@@ -184,8 +184,8 @@ class UpdateTopologyTestCase(TestCase):
         self.feature4 = Feature.objects.create(layer=self.layer, geom="SRID=4326;LINESTRING(1 40, 1 41, 9 41, 9 40)")
         self.assertTrue(Routing.update_topology(self.layer, tolerance=0.0001))
 
-    @mock.patch('geostore.settings.GEOSTORE_ROUTING_CELERY_ASYNC', new_callable=mock.PropertyMock)
-    @mock.patch('geostore.routing.signals.execute_async_func')
+    @mock.patch('geostore_routing.settings.GEOSTORE_ROUTING_CELERY_ASYNC', new_callable=mock.PropertyMock)
+    @mock.patch('geostore_routing.signals.execute_async_func')
     @override_settings(CELERY_ALWAYS_EAGER=False)
     def test_remove_geom_update_routing(self, mock_async, mock_routing):
         def side_effect(async_func, args):
@@ -216,8 +216,8 @@ class UpdateTopologyTestCase(TestCase):
         self.assertNotIn(first_id, id_new_features)
         self.assertNotIn(self.other_feature.pk, id_new_features)
 
-    @mock.patch('geostore.settings.GEOSTORE_ROUTING_CELERY_ASYNC', new_callable=mock.PropertyMock)
-    @mock.patch('geostore.routing.signals.execute_async_func')
+    @mock.patch('geostore_routing.settings.GEOSTORE_ROUTING_CELERY_ASYNC', new_callable=mock.PropertyMock)
+    @mock.patch('geostore_routing.signals.execute_async_func')
     @override_settings(CELERY_ALWAYS_EAGER=False)
     def test_update_geom_update_routing(self, mock_async, mock_routing):
         def side_effect(async_func, args):

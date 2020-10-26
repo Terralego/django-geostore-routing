@@ -20,12 +20,12 @@ sys.path.insert(0, root)
 
 # -- Project information -----------------------------------------------------
 
-project = 'django-geostore'
+project = 'django-geostore-routing'
 copyright = '2019-%s, Makina Corpus' % date.today().year
 author = 'Makina Corpus'
 
 # The full version, including alpha/beta/rc tags
-release = open(os.path.join(root, 'geostore', 'VERSION.md')).read()
+release = open(os.path.join(root, 'geostore_routing', 'VERSION.md')).read()
 
 
 # -- General configuration ---------------------------------------------------
