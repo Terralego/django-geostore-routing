@@ -3,11 +3,11 @@ from io import StringIO
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase, tag
-
 from geostore import GeometryTypes
 from geostore.models import Layer
 from geostore.tests.factories import LayerFactory
-from geostore.tests.utils import get_files_tests
+
+from geostore_routing.tests.utils import get_files_tests
 
 
 @tag("routing")
