@@ -1,5 +1,5 @@
 from django.db.models.signals import post_save, post_delete
-from geostore.models import Feature, Layer
+from geostore.models import Feature
 from geostore.signals import execute_async_func
 
 from geostore_routing import settings as app_settings
