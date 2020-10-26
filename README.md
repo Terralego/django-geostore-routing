@@ -8,7 +8,9 @@
 
 # django-geostore-routing
 
-PGRouting plugin and endpoint for django-geostore
+* PGRouting plugin for django-geostore
+* Add topology creation and update on Linestring based layers
+* Add custom fields and endpoint in django-geostore API to compute routing
 
 ## Requirements
 

@@ -138,6 +138,3 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
-
-GEOSTORE_LAYER_VIEWSSET = 'geostore_routing.views.LayerViewsSet'
-GEOSTORE_LAYER_SERIALIZER = 'geostore_routing.serializers.LayerSerializer'

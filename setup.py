@@ -20,7 +20,7 @@ setup(
     include_package_data=True,
     author="Makina Corpus",
     author_email="terralego-pypi@makina-corpus.com",
-    description='PGRouting and endpoints plugin for django-geostore',
+    description='PGRouting plugin for django-geostore',
     long_description=README + '\n\n' + CHANGES,
     description_content_type="text/markdown",
     long_description_content_type="text/markdown",
@@ -44,7 +44,8 @@ setup(
         'django>=2.2',
         'djangorestframework',
         'djangorestframework-gis',
-        # 'django-geostore',
+        'celery',
+        # 'django-geostore>=0.4.5',
         "django-geostore@https://github.com/Terralego/django-geostore/archive/read_to_split.tar.gz"
     ],
     tests_require=test_require,

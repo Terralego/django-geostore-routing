@@ -85,7 +85,7 @@ class Routing(object):
                 final_way = MultiLineString(*way_linestrings, *[segment_1, segment_2])
             else:
                 final_way = MultiLineString(*[way, segment_1, segment_2])
-            final_way.simplify(tolerance=0.00001, preserve_topology=True)
+            final_way.simplify(tolerance=app_settings.GEOSTORE_ROUTING_TOLERANCE, preserve_topology=True)
             return final_way.merged
 
     @classmethod
@@ -106,7 +106,7 @@ class Routing(object):
         if not features:
             rows_where = f'layer_id={layer.pk} '
         else:
-            rows_where = f"""layer_id={layer.pk}  AND id IN {tuple(features)}"""
+            rows_where = f"layer_id={layer.pk}  AND id IN {tuple(features)}"
 
         cursor.execute(raw_query,
                        [layer.features.model._meta.db_table, tolerance, rows_where, clean])

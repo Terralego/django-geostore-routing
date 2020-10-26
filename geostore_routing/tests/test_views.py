@@ -3,7 +3,7 @@ from unittest import mock
 from django.contrib.gis.geos import LineString, Point
 from django.core.exceptions import ValidationError
 from django.db import connection
-from django.test import override_settings, TestCase, tag
+from django.test import override_settings, TestCase
 from django.urls import reverse
 from geostore import GeometryTypes
 from geostore.models import Feature, Layer
@@ -15,7 +15,6 @@ from geostore_routing.helpers import Routing, RoutingException
 from geostore_routing.tests.utils import get_files_tests
 
 
-@tag("routing")
 class RoutingTestCase(TestCase):
     points = [
         {
@@ -168,7 +167,6 @@ class RoutingTestCase(TestCase):
         self.assertEqual(self.layer.routable, True)
 
 
-@tag("routing")
 class UpdateTopologyTestCase(TestCase):
     points = [Point(0, 40, srid=app_settings.INTERNAL_GEOMETRY_SRID),
               Point(10, 40, srid=app_settings.INTERNAL_GEOMETRY_SRID)]
