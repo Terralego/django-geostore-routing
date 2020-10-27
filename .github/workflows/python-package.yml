@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgis/postgis:12-3.0
+        image: pgrouting/pgrouting:10-2.5-2.6.3
         env:
           POSTGRES_DB: travis_ci_test
           POSTGRES_PASSWORD: travis_ci_test
