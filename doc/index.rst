@@ -9,7 +9,6 @@ Terralego backend app
 
    installation
    configuration
-   use
    routing
 
 .. |Build Status| image:: https://github.com/Terralego/django-geostore-routing/workflows/Testing/badge.svg
