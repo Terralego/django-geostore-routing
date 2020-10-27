@@ -45,7 +45,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get -y install libproj-dev binutils gdal-bin libgdal-dev
+        sudo apt-get -qq -y install libproj-dev binutils gdal-bin libgdal-dev
         python -m pip install --upgrade pip setuptools wheel
         pip install .[dev] -U
         if [[ ${{ matrix.django-version }} == dev ]]; then
