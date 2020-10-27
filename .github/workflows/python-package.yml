@@ -28,11 +28,13 @@ jobs:
     strategy:
       matrix:
         python-version: [3.6, 3.8]
-        django-version: [2.2, 3.1]
+        django-version: [2.2.*, 3.1.*]
         include:
           - django-version: dev
+            python-version: [3.6, 3.8, 3.9]
             experimental: true
           - python-version: 3.9
+            django-version: [2.2.*, 3.1.*]
             experimental: true
 
     steps:
