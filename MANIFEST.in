@@ -1,7 +1,5 @@
 include *.md
-recursive-include geostore *.md
-recursive-include geostore *.py
+recursive-include geostore_routing *.md
+recursive-include geostore_routing *.py
 recursive-exclude test_geostore_routing *
 recursive-exclude geostore_routing/tests/ *
-include geostore_routing/tests/factories.py
-include geostore_routing/tests/__init__.py
