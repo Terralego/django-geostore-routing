@@ -40,12 +40,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Lint with flake8
-      run: |
-        python -m pip install flake8
-        flake8 terra_geocrud test_terra_geocrud
-
-
     - name: Install dependencies
       run: |
         sudo apt-get -y install libproj-dev binutils gdal-bin libgdal-dev
@@ -56,7 +50,6 @@ jobs:
         else
           pip install Django==${{ matrix.django-version }} -U;
         fi
-
 
     - name: Test with pytest
       run: |
