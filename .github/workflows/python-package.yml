@@ -45,7 +45,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        DEBIAN_FRONTEND=noninteractive
+        export DEBIAN_FRONTEND=noninteractive
         sudo apt-get -yq install libproj-dev binutils gdal-bin libgdal-dev
         python -m pip install --upgrade pip setuptools wheel
         pip install .[dev] -U
