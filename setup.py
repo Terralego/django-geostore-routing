@@ -25,7 +25,7 @@ setup(
     description_content_type="text/markdown",
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    url='https://github.com/Terralego/django-geostore.git',
+    url='https://github.com/Terralego/django-geostore-routing.git',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',

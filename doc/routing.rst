@@ -1,7 +1,7 @@
 Routing
 =======
 
-Django-Geostore integrate a way to use your LineString layer as a routing one. It uses pgRouting as backend.
+django-geostore-routing integrate a way to use your LineString layer as a routing one. It uses pgRouting as backend.
 
 
 Prerequisites
