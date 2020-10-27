@@ -63,7 +63,7 @@ jobs:
     - pip install flake8
     before_script: skip
     script:
-    - flake8 geostore test_geostore_routing
+    - flake8 geostore_routing test_geostore_routing
     after_success: skip
 
   - stage: deploy
