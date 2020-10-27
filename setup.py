@@ -45,8 +45,7 @@ setup(
         'djangorestframework',
         'djangorestframework-gis',
         'celery',
-        # 'django-geostore>=0.4.5',
-        "django-geostore@https://github.com/Terralego/django-geostore/archive/read_to_split.tar.gz"
+        'django-geostore>=0.5.0',
     ],
     tests_require=test_require,
     extras_require={
