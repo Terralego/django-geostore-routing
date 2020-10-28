@@ -1,4 +1,4 @@
-[![Build](https://github.com/Terralego/django-geostore-routing/workflows/Testing/badge.svg)](Build Status)
+[![Build](https://github.com/Terralego/django-geostore-routing/workflows/Testing/badge.svg)](https://github.com/Terralego/django-geostore-routing/actions?query=branch%3Amaster)
 [![codecov](https://codecov.io/gh/Terralego/django-geostore-routing/branch/master/graph/badge.svg)](https://codecov.io/gh/Terralego/django-geostore-routing)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d68cfbf250ff1bd8d91f/maintainability)](https://codeclimate.com/github/Terralego/django-geostore-routing/maintainability)
 [![Documentation Status](https://readthedocs.org/projects/django-geostore-routing/badge/?version=latest)](https://django-geostore-routing.readthedocs.io/en/latest/?badge=latest)
