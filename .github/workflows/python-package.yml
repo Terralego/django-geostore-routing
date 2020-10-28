@@ -12,6 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     services:
       postgres:
         image: pgrouting/pgrouting:10-2.5-2.6.3
@@ -40,6 +41,7 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+        continue-on-error: ${{ matrix.experimental }}
 
     - name: Install dependencies
       run: |
