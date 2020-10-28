@@ -10,9 +10,10 @@ on:
     branches: [ master ]
 
 jobs:
-  lint:
+  Lint:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Set up Python 3.6
         uses: actions/setup-python@v2
         with:
@@ -26,7 +27,7 @@ jobs:
         run: |
           flake8 geostore_routing test_geostore_routing
 
-  test:
+  Tests:
     runs-on: ubuntu-latest
 
     services:
