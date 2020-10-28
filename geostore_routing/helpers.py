@@ -1,17 +1,18 @@
 import json
 
 from django import VERSION as DJANGO_VERSION
-from django.contrib.gis.db.models.functions import Distance
+from django.contrib.gis.db.models.functions import Distance, LineLocatePoint
+
+from geostore_routing.functions import LineSubstring
 
 if DJANGO_VERSION >= (3, 0):
     from django.contrib.gis.db.models.functions import GeometryDistance
 from django.contrib.gis.geos import GEOSGeometry, MultiLineString, LineString, Point
 from django.core.cache import cache
 from django.db import connection
-from django.db.models import F, Value
+from django.db.models import F
 
 from geostore_routing import settings as app_settings
-from geostore.tiles.funcs import ST_LineLocatePoint, ST_LineSubstring
 
 
 class RoutingException(Exception):
@@ -128,7 +129,7 @@ class Routing(object):
         }
 
     def _get_points_in_lines(self, points):
-        '''Returns position of the point in the closed geometry'''
+        """ Returns position of the point in the closed geometry """
         snapped_points = []
 
         for point in points:
@@ -155,7 +156,7 @@ class Routing(object):
 
     def _snap_point_on_feature(self, point, feature):
         return self.layer.features.filter(pk=feature.pk).annotate(
-            fraction=ST_LineLocatePoint(F('geom'), Value(str(point))),
+            fraction=LineLocatePoint('geom', point),
         ).only('id', 'geom').first()
 
     def _points_route(self):
@@ -187,9 +188,9 @@ class Routing(object):
 
     def _get_line_substring(self, feature, fractions):
         feature = self.layer.features.annotate(
-            splitted_geom=ST_LineSubstring(F('geom'),
-                                           float(min(fractions)),
-                                           float(max(fractions)))
+            splitted_geom=LineSubstring('geom',
+                                        float(min(fractions)),
+                                        float(max(fractions)))
         ).get(pk=feature.pk)
 
         return {

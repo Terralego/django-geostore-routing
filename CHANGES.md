@@ -1,8 +1,10 @@
 CHANGELOG
 =========
 
-0.9.4.dev0     (XXXX-XX-XX)
+0.9.4          (2020-10-28)
 ---------------------------
+
+* Improve compatibility with django-geostore > 0.5.0
 
 
 0.9.3          (2020-10-27)
