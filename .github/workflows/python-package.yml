@@ -11,26 +11,27 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     services:
       postgres:
         image: pgrouting/pgrouting:10-2.5-2.6.3
         env:
-          POSTGRES_DB: travis_ci_test
-          POSTGRES_PASSWORD: travis_ci_test
-          POSTGRES_USER: travis_ci_test
+          POSTGRES_DB: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_USER: test
         ports:
           - 5432:5432
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
+
     strategy:
       matrix:
-        python-version: [3.6, 3.8]
-        django-version: [2.2, 3.1, dev]
+        python-version: [3.6, 3.9]
+        django-version: [2.2.*, 3.1.*]
         include:
           - django-version: dev
+            python-version: 3.6
+            experimental: true
+          - django-version: dev
+            python-version: 3.9
             experimental: true
 
     steps:
@@ -42,7 +43,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get -y install libproj-dev binutils gdal-bin libgdal-dev
+        export DEBIAN_FRONTEND=noninteractive
+        sudo apt-get -yq install libproj-dev binutils gdal-bin libgdal-dev
         python -m pip install --upgrade pip setuptools wheel
         pip install .[dev] -U
         if [[ ${{ matrix.django-version }} == dev ]]; then

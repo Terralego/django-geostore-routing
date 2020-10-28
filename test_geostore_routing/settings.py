@@ -83,9 +83,9 @@ WSGI_APPLICATION = 'test_geostore_routing.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'USER': 'travis_ci_test',
-        'NAME': 'travis_ci_test',
-        'PASSWORD': 'travis_ci_test',
+        'USER': 'test',
+        'NAME': 'test',
+        'PASSWORD': 'test',
         'HOST': os.getenv('POSTGRES_HOST', '127.0.0.1')
     }
 }
