@@ -72,10 +72,8 @@ jobs:
         fi
 
     - name: Test
-      run: |
-        coverage run ./manage.py test
-
-    - name: Coverage upload
     - uses: paambaati/codeclimate-action@v2.7.4
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      run: |
+        coverage run ./manage.py test
