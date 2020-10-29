@@ -1,6 +1,6 @@
-from django.conf import settings
 from django.contrib.gis.geos import LineString
 from django.utils.translation import gettext as _
+from geostore import settings as app_settings
 from geostore.serializers import LayerSerializer as BaseLayerSerializer
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -18,7 +18,7 @@ class RoutingSerializer(serializers.Serializer):
     def validate_geom(self, value):
         if not isinstance(value, LineString):
             raise ValidationError(_("Geometry should be a LineString object."))
-        value.srid = settings.INTERNAL_GEOMETRY_SRID
+        value.srid = app_settings.INTERNAL_GEOMETRY_SRID
         return value
 
 
