@@ -10,3 +10,5 @@ class GeostoreRoutingConfig(AppConfig):
     def ready(self):
         geostore_settings.GEOSTORE_LAYER_VIEWSSET = 'geostore_routing.views.LayerViewsSet'
         geostore_settings.GEOSTORE_LAYER_SERIALIZER = 'geostore_routing.serializers.LayerSerializer'
+
+        import geostore_routing.signals.handlers  # NOQA
