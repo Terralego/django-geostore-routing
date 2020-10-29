@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Testing
+name: Continuous Integration
 
 on:
   push:
@@ -10,9 +10,25 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  Lint:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6
 
+      - name: Install dependencies
+        run: |
+          pip install flake8
+
+      - name: Lint
+        run: |
+          flake8 geostore_routing test_geostore_routing
+
+  Tests:
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: pgrouting/pgrouting:10-2.5-2.6.3
@@ -30,22 +46,21 @@ jobs:
         include:
           - django-version: dev
             python-version: 3.6
-            experimental: true
+            continue-on-error: true
           - django-version: dev
             python-version: 3.9
-            experimental: true
+            continue-on-error: true
 
     steps:
+
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-        continue-on-error: ${{ matrix.experimental }}
 
     - name: Install dependencies
       run: |
-        export DEBIAN_FRONTEND=noninteractive
         sudo apt-get -yq install libproj-dev binutils gdal-bin libgdal-dev
         python -m pip install --upgrade pip setuptools wheel
         pip install .[dev] -U
