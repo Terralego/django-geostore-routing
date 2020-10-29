@@ -1,5 +1,4 @@
 from django.contrib.gis.geos import LineString, Point
-from django.core.exceptions import ValidationError
 from django.db import connection
 from django.test import TestCase
 from django.urls import reverse
@@ -36,19 +35,22 @@ class RoutingTestCase(TestCase):
         }
     ]
 
-    def setUp(self):
-        self.layer = Layer.objects.create(name='test_layer', routable=True)
-        self.user = UserFactory(is_superuser=True)
-        self.client.force_login(self.user)
+    @classmethod
+    def setUpTestData(cls):
+        cls.layer = Layer.objects.create(name='test_layer', geom_type=GeometryTypes.LineString, routable=True)
+        cls.user = UserFactory(is_superuser=True)
 
         geojson_path = get_files_tests('toulouse.geojson')
 
         with open(geojson_path,
                   mode='r',
                   encoding="utf-8") as geojson:
-            self.layer.from_geojson(geojson.read())
+            cls.layer.from_geojson(geojson.read())
 
-        self.assertTrue(Routing.update_topology(self.layer, tolerance=0.0001))
+        Routing.update_topology(cls.layer, tolerance=0.0001)
+
+    def setUp(self) -> None:
+        self.client.force_login(self.user)
 
     def test_points_in_line(self):
         routing = Routing(
@@ -153,17 +155,6 @@ class RoutingTestCase(TestCase):
         with self.assertRaises(RoutingException):
             Routing(self.points, feature.layer)
 
-    def test_routable_point(self):
-        self.layer.geom_type = GeometryTypes.Point
-        with self.assertRaisesRegex(ValidationError, 'Invalid geom type for routing'):
-            self.layer.clean()
-
-    def test_routable_linestring(self):
-        self.layer.geom_type = GeometryTypes.LineString
-        self.layer.clean()
-        self.assertEqual(self.layer.geom_type, GeometryTypes.LineString)
-        self.assertEqual(self.layer.routable, True)
-
 
 class UpdateTopologyTestCase(TestCase):
     points = [Point(0, 40, srid=app_settings.INTERNAL_GEOMETRY_SRID),
@@ -197,7 +188,7 @@ class UpdateTopologyTestCase(TestCase):
         new_response = self.client.post(reverse('layer-route',
                                                 args=[self.layer.pk]),
                                         {'geom': geometry.geojson})
-        self.assertEqual(HTTP_200_OK, new_response.status_code)
+        self.assertEqual(HTTP_200_OK, new_response.status_code, new_response)
         new_json = new_response.json()
         self.assertNotEqual(old_json, new_json)
         id_new_features = [feature['properties']['id'] for feature in new_json.get('route').get('features')]
