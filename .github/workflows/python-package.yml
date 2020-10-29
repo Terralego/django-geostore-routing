@@ -70,12 +70,10 @@ jobs:
           pip install Django==${{ matrix.django-version }} -U;
         fi
 
-    - name: Test
-      run: |
-        coverage run ./manage.py test
-
-    - name: Coverage upload
+    - name: Test and coverage
       uses: paambaati/codeclimate-action@v2.7.4
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      with:
+        coverageCommand: coverage run ./manage.py test
 
