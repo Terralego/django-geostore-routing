@@ -1,5 +1,4 @@
 from django.contrib.gis.geos import LineString, Point
-from django.core.exceptions import ValidationError
 from django.db import connection
 from django.test import TestCase
 from django.urls import reverse
@@ -36,19 +35,22 @@ class RoutingTestCase(TestCase):
         }
     ]
 
-    def setUp(self):
-        self.layer = Layer.objects.create(name='test_layer', routable=True)
-        self.user = UserFactory(is_superuser=True)
-        self.client.force_login(self.user)
+    @classmethod
+    def setUpTestData(cls):
+        cls.layer = Layer.objects.create(name='test_layer', geom_type=GeometryTypes.LineString, routable=True)
+        cls.user = UserFactory(is_superuser=True)
 
         geojson_path = get_files_tests('toulouse.geojson')
 
         with open(geojson_path,
                   mode='r',
                   encoding="utf-8") as geojson:
-            self.layer.from_geojson(geojson.read())
+            cls.layer.from_geojson(geojson.read())
 
-        self.assertTrue(Routing.update_topology(self.layer, tolerance=0.0001))
+        Routing.update_topology(cls.layer, tolerance=0.0001)
+
+    def setUp(self) -> None:
+        self.client.force_login(self.user)
 
     def test_points_in_line(self):
         routing = Routing(
@@ -152,17 +154,6 @@ class RoutingTestCase(TestCase):
 
         with self.assertRaises(RoutingException):
             Routing(self.points, feature.layer)
-
-    def test_routable_point(self):
-        self.layer.geom_type = GeometryTypes.Point
-        with self.assertRaisesRegex(ValidationError, 'Invalid geom type for routing'):
-            self.layer.clean()
-
-    def test_routable_linestring(self):
-        self.layer.geom_type = GeometryTypes.LineString
-        self.layer.clean()
-        self.assertEqual(self.layer.geom_type, GeometryTypes.LineString)
-        self.assertEqual(self.layer.routable, True)
 
 
 class UpdateTopologyTestCase(TestCase):
