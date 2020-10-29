@@ -188,7 +188,7 @@ class UpdateTopologyTestCase(TestCase):
         new_response = self.client.post(reverse('layer-route',
                                                 args=[self.layer.pk]),
                                         {'geom': geometry.geojson})
-        self.assertEqual(HTTP_200_OK, new_response.status_code)
+        self.assertEqual(HTTP_200_OK, new_response.status_code, new_response)
         new_json = new_response.json()
         self.assertNotEqual(old_json, new_json)
         id_new_features = [feature['properties']['id'] for feature in new_json.get('route').get('features')]
