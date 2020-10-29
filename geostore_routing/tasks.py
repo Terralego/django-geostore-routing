@@ -9,9 +9,8 @@ from .helpers import Routing
 def feature_update_routing(layer_id, ewkt):
     """ Update all feature topologies """
     layer = Layer.objects.get(pk=layer_id)
-    if layer.routable:
-        features = layer.features.filter(geom__dwithin=(ewkt,
-                                                        app_settings.GEOSTORE_ROUTING_TOLERANCE)
-                                         ).values_list('pk', flat=True)
-        Routing.update_topology(layer, features)
+    features = layer.features.filter(geom__dwithin=(ewkt,
+                                                    app_settings.GEOSTORE_ROUTING_TOLERANCE)
+                                     ).values_list('pk', flat=True)
+    Routing.update_topology(layer, features)
     return True

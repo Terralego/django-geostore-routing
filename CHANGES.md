@@ -4,6 +4,9 @@ CHANGELOG
 0.9.5.dev0     (XXXX-XX-XX)
 ---------------------------
 
+* Change way to load signals
+* Improve test coverage
+
 
 0.9.4          (2020-10-28)
 ---------------------------
