@@ -12,6 +12,8 @@
 * Add topology creation and update on Linestring based layers
 * Add custom fields and endpoint in django-geostore API to compute routing
 
+https://django-geostore-routing.readthedocs.io/en/latest/
+
 ## Requirements
 
 ### General
