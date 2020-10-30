@@ -3,7 +3,7 @@
 django-geostore-routing
 =======================
 
-Terralego backend app
+PGRouting plugin for django-geostore
 
 .. toctree::
 
