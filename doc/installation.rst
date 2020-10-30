@@ -66,3 +66,23 @@ With git
     git clone https://github.com/Terralego/django-geostore-routing.git
     cd django-geostore-routing
     python setup.py install
+
+
+In your project settings
+------------------------
+
+.. code-block:: python
+
+  INSTALLED_APPS = (
+    ...
+    "geostore",
+    "geostore_routing",
+    ...
+  )
+
+Settings up
+-----------
+
+pgRouting needs to update a table that contains all linestring to create topological connections.
+You need to execute a command to create topology at first.
+Once, after every feature update topology will be automatically updated if you enable GEOSTORE_ROUTING_CELERY_ASYNC with a working celery worker.

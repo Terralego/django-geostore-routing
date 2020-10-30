@@ -8,8 +8,9 @@ Terralego backend app
 .. toctree::
 
    installation
-   configuration
    routing
+   commands
+   settings
 
 .. |Build Status| image:: https://github.com/Terralego/django-geostore-routing/workflows/Testing/badge.svg
    :target: https://github.com/Terralego/django-geostore-routing/workflows/Testing/badge.svg
