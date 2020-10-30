@@ -1,9 +1,10 @@
 CHANGELOG
 =========
 
-0.9.5.dev0     (XXXX-XX-XX)
+0.9.5.dev0     (2020-10-30)
 ---------------------------
 
+* Fix default routing layer serializer
 * Change way to load signals
 * Improve test coverage
 
