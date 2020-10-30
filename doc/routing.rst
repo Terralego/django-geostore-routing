@@ -1,48 +1,7 @@
-Routing
+Routing API
 =======
 
-django-geostore-routing integrate a way to use your LineString layer as a routing one. It uses pgRouting as backend.
-
-
-Prerequisites
--------------
-
- * pgRouting>=2.5
- * Enable geostore.routing in your project settings
-
-.. code-block:: python
-
-  INSTALLED_APPS = (
-    ...
-    "geostore",
-    "geostore_routing",
-    ...
-  )
-
-Settings up
------------
-
-pgRouting needs to update a table that contains all linestring to create topological connections.
-You need to execute a command to create topology at first. Once, after every feature update topology will be automatically updated.
-
-Commands
---------
-
-
-.. code-block:: bash
-
-  ./manage.py update_topology -pk <layer_pk> --tolerance <tolerance>
-
-You must provide the pk of the layer you want to use.
-Tolerance for extremity snapping is 0.00001 by default (unity should match to your INTERNAL_GEOMETRY_SRID, by default for 4326 see https://www.usna.edu/Users/oceano/pguth/md_help/html/approx_equivalents.htm )
-
-
-Usage
------
-
-The layer viewset provide an endpoint to get a routing result between two or more points.
-
-``^layer/<pk>/route``
+django-geostore-routing integrate a way to use your LineString layer as a routing one.
 
 Arguments
 ^^^^^^^^^
@@ -57,7 +16,7 @@ Query content can provided in a POST or a GET request.
 
 An example of response:
 
-.. code-block:: json
+.. code-block:: javascript
 
     {
         'request': {
