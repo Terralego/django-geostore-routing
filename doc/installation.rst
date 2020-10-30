@@ -4,16 +4,15 @@ Installation
 Requirements
 ------------
 
-DATABASE
-^^^^^^^^
-
 Minimum configuration :
+
  * Python 3.6+
  * PostgreSQL 10+
  * PostGIS 2.4+
  * PgRouting 2.5+
 
 Recommended configuration :
+
  * Python 3.8
  * PostgreSQL 12
  * PostGIS 3
@@ -24,9 +23,8 @@ Your final django project should use django.contrib.gis.backend.postgis as defau
 
 USING docker image :
 
-Prebuilt docker image builded by makinacorpus
+https://hub.docker.com/r/pgrouting/pgrouting
 
-https://hub.docker.com/r/makinacorpus/pgrouting
 
 SYSTEM REQUIREMENTS
 ^^^^^^^^^^^^^^^^^^^
