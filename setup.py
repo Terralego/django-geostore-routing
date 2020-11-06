@@ -45,7 +45,7 @@ setup(
         'djangorestframework',
         'djangorestframework-gis',
         'celery',
-        'django-geostore>=0.5.0',
+        'django-geostore>=0.5.2',
     ],
     tests_require=test_require,
     extras_require={
