@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from geostore.models import Feature
-from geostore.signals import execute_async_func
+from geostore.helpers import execute_async_func
 
 from geostore_routing import settings as app_settings
 from geostore_routing.tasks import feature_update_routing
