@@ -1,11 +1,12 @@
 CHANGELOG
 =========
 
-0.9.6.dev0     (XXXX-XX-XX)
+0.9.6          (2020-11-06)
 ---------------------------
 
+* Improve compatibility with django-geostore > 0.5.2
 
-0.9.5.dev0     (2020-10-30)
+0.9.5          (2020-10-30)
 ---------------------------
 
 * Fix default routing layer serializer
