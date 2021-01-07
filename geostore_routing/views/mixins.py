@@ -42,6 +42,7 @@ class RoutingViewsSetMixin:
                 serializer.is_valid()
                 data = serializer.data
                 data['geom'] = request.data['geom']
+                data['waypoints'] = geometry.coords
                 data['callback_id'] = request.data.get('callback_id', None)
 
             except RoutingException as exc:
