@@ -43,6 +43,8 @@ class Routing(object):
         self.waypoints = points
         self.points = self._get_points_in_lines(self.waypoints)
         self.routes = self._points_route()
+        self.full_waypoints = [{"coordinates": point.coords,
+                                "distance": round(self._get_closest_geometry(point).distance.m, 2)} for point in points]
 
     def get_route(self):
         """ Return the geometry of the route from the given points """
