@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-0.9.7.dev0     (XXXX-XX-XX)
+0.9.7          (2021-12-15)
 ---------------------------
 
 * Add waypoints with coordinates and distance to route
