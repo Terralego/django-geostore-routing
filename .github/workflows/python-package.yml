@@ -28,7 +28,7 @@ jobs:
           flake8 geostore_routing test_geostore_routing
 
   Tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     needs: [Lint]
     services:
       postgres:
@@ -42,15 +42,16 @@ jobs:
 
     strategy:
       matrix:
+        experimental: [false]
         python-version: [3.6, 3.9]
         django-version: [2.2.*, 3.1.*]
-        include:
-          - django-version: dev
-            python-version: 3.6
-            continue-on-error: true
-          - django-version: dev
-            python-version: 3.9
-            continue-on-error: true
+#        include:
+#          - django-version: dev
+#            python-version: 3.6
+#            experimental: true
+#          - django-version: dev
+#            python-version: 3.9
+#            experimental: true
 
     steps:
 
