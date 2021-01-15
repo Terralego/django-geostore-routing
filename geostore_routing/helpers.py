@@ -90,7 +90,7 @@ class Routing(object):
             else:
                 final_way = MultiLineString(*[way, segment_1, segment_2])
             final_way.simplify(tolerance=app_settings.GEOSTORE_ROUTING_TOLERANCE, preserve_topology=True)
-            raw_query_length = "SELECT ST_Length(the_geog) FROM (SELECT ST_GeographyFromText(%s) As the_geog) As foo;"
+            raw_query_length = "SELECT ST_Length(%s::geography);"
             cursor = connection.cursor()
             cursor.execute(raw_query_length, [segment_1.wkt, ])
             distance_start = cursor.fetchall()[0][0]
