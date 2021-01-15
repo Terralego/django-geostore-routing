@@ -100,11 +100,9 @@ class RoutingTestCase(TestCase):
 
         self.assertEqual(len(response.get('waypoints')), 3)
         first_distance = response.get('waypoints')[0].get('distance')
-        second_distance = response.get('waypoints')[1].get('distance')
         third_distance = response.get('waypoints')[2].get('distance')
-        self.assertEqual(first_distance, 11.83)
-        self.assertEqual(second_distance, 8.04)
-        self.assertEqual(third_distance, 6.81)
+        self.assertEqual(first_distance, 12.0)
+        self.assertEqual(third_distance, 6.82)
 
     def test_routing_view_edge_case(self):
         points = [Point(

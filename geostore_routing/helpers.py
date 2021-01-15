@@ -70,7 +70,7 @@ class Routing(object):
                 first_point_on_way = Point(way.coords[0])
                 last_point_on_way = Point(way.coords[-1])
             else:
-                return way
+                return 0, 0, way
 
             # find closest point for start_point
             if start_point.distance(first_point_on_way) <= start_point.distance(last_point_on_way):
@@ -94,7 +94,7 @@ class Routing(object):
             cursor = connection.cursor()
             cursor.execute(raw_query_length, [segment_1.wkt, segment_2.wkt])
             distance_start, distance_end = cursor.fetchall()[0]
-            return distance_start, distance_end, final_way.merged
+            return round(distance_start, 2), round(distance_end, 2), final_way.merged
 
     @classmethod
     def update_topology(cls, layer, features=None, tolerance=app_settings.GEOSTORE_ROUTING_TOLERANCE, clean=False):
