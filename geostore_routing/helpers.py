@@ -43,8 +43,8 @@ class Routing(object):
         self.waypoints = points
         self.points = self._get_points_in_lines(self.waypoints)
         self.routes = self._points_route()
-        self.full_waypoints = [{"coordinates": point.coords,
-                                "distance": round(self._get_closest_geometry(point).distance.m, 2)} for point in points]
+        self.full_waypoints = [{"coordinates": point.coords, }
+                               for point in points]
 
     def get_route(self):
         """ Return the geometry of the route from the given points """
@@ -81,15 +81,22 @@ class Routing(object):
                 last_point = first_point_on_way
 
             # add first and final segments
-            segment_1 = LineString(start_point, first_point)
-            segment_2 = LineString(end_point, last_point)
+            segment_1 = LineString(start_point, first_point, srid=app_settings.INTERNAL_GEOMETRY_SRID)
+            segment_2 = LineString(end_point, last_point, srid=app_settings.INTERNAL_GEOMETRY_SRID)
+
             if way.geom_type == "MultiLineString":
                 way_linestrings = [line for line in way]
                 final_way = MultiLineString(*way_linestrings, *[segment_1, segment_2])
             else:
                 final_way = MultiLineString(*[way, segment_1, segment_2])
             final_way.simplify(tolerance=app_settings.GEOSTORE_ROUTING_TOLERANCE, preserve_topology=True)
-            return final_way.merged
+            raw_query_length = "SELECT ST_Length(the_geog) FROM (SELECT ST_GeographyFromText(%s) As the_geog) As foo;"
+            cursor = connection.cursor()
+            cursor.execute(raw_query_length, [segment_1.wkt, ])
+            distance_start = cursor.fetchall()[0][0]
+            cursor.execute(raw_query_length, [segment_2.wkt, ])
+            distance_end = cursor.fetchall()[0][0]
+            return distance_start, distance_end, final_way.merged
 
     @classmethod
     def update_topology(cls, layer, features=None, tolerance=app_settings.GEOSTORE_ROUTING_TOLERANCE, clean=False):
