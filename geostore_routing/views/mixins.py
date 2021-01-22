@@ -30,7 +30,7 @@ class RoutingViewsSetMixin:
                 # if not route:
                 #     return Response(status=status.HTTP_204_NO_CONTENT)
 
-                distance_1, distance_2, way = routing.get_linestring()
+                start_on_way, end_on_way, distance_1, distance_2, way = routing.get_linestring()
 
                 # generate response data by using serializer, to keep serialization rules (precision / perfs.)
                 response = types.SimpleNamespace()
@@ -42,9 +42,8 @@ class RoutingViewsSetMixin:
                 serializer.is_valid()
                 data = serializer.data
                 data['geom'] = request.data['geom']
-                data['waypoints'] = routing.full_waypoints
-                data['waypoints'][0]['distance'] = distance_1
-                data['waypoints'][-1]['distance'] = distance_2
+                data['waypoints'] = [{"coordinates": start_on_way.coords, "distance": distance_1},
+                                     {"coordinates": end_on_way.coords, "distance": distance_2}]
                 data['callback_id'] = request.data.get('callback_id', None)
 
             except RoutingException as exc:
