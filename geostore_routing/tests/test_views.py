@@ -98,9 +98,9 @@ class RoutingTestCase(TestCase):
         self.assertTrue(points[0].distance(start) <= 0.001)
         self.assertTrue(points[-1].distance(end) <= 0.001)
 
-        self.assertEqual(len(response.get('waypoints')), 3)
+        self.assertEqual(len(response.get('waypoints')), 2)
         first_distance = response.get('waypoints')[0].get('distance')
-        third_distance = response.get('waypoints')[2].get('distance')
+        third_distance = response.get('waypoints')[1].get('distance')
         self.assertEqual(first_distance, 12.0)
         self.assertEqual(third_distance, 6.82)
 
