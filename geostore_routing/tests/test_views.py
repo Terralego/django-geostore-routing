@@ -17,6 +17,82 @@ class RoutingTestCase(TestCase):
         {
             "type": "Point",
             "coordinates": [
+                1,
+                43
+            ]
+        }, {
+            "type": "Point",
+            "coordinates": [
+                1.5,
+                43.5
+            ]
+        }
+    ]
+
+    out_points = [
+        {
+            "type": "Point",
+            "coordinates": [
+                1.001,
+                43
+            ]
+        }, {
+            "type": "Point",
+            "coordinates": [
+                1.499,
+                43.5
+            ]
+        }
+    ]
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.layer = Layer.objects.create(name='test_layer', geom_type=GeometryTypes.LineString, routable=True)
+        cls.user = UserFactory(is_superuser=True)
+        cls.point_1 = Point(cls.points[0]["coordinates"])
+        cls.point_2 = Point(cls.points[1]["coordinates"])
+
+        cls.out_point_1 = Point(cls.out_points[0]["coordinates"])
+        cls.out_point_2 = Point(cls.out_points[1]["coordinates"])
+        cls.feature = FeatureFactory.create(geom=LineString([cls.point_1, cls.point_2]), layer=cls.layer)
+
+        Routing.update_topology(cls.layer, tolerance=0.0001)
+
+    def setUp(self):
+        self.client.force_login(self.user)
+
+    def test_routing_view_waypoints(self):
+        geometry = LineString([self.out_point_2, self.out_point_1], srid=app_settings.INTERNAL_GEOMETRY_SRID)
+        response = self.client.post(reverse('layer-route',
+                                            args=[self.layer.pk]),
+                                    {'geom': geometry.geojson, })
+        self.assertEqual(HTTP_200_OK, response.status_code)
+        response = response.json()
+
+        self.assertAlmostEqual(response['waypoints'][0]['coordinates'][0], 1.4995)
+        self.assertAlmostEqual(response['waypoints'][0]['coordinates'][1], 43.4995)
+        self.assertAlmostEqual(response['waypoints'][1]['coordinates'][0], 1.0005)
+        self.assertAlmostEqual(response['waypoints'][1]['coordinates'][1], 43.0005)
+
+    def test_routing_view_opposite_order_waypoints(self):
+        geometry = LineString([self.out_point_1, self.out_point_2], srid=app_settings.INTERNAL_GEOMETRY_SRID)
+        response = self.client.post(reverse('layer-route',
+                                            args=[self.layer.pk]),
+                                    {'geom': geometry.geojson, })
+        self.assertEqual(HTTP_200_OK, response.status_code)
+        response = response.json()
+
+        self.assertAlmostEqual(response['waypoints'][1]['coordinates'][0], 1.4995)
+        self.assertAlmostEqual(response['waypoints'][1]['coordinates'][1], 43.4995)
+        self.assertAlmostEqual(response['waypoints'][0]['coordinates'][0], 1.0005)
+        self.assertAlmostEqual(response['waypoints'][0]['coordinates'][1], 43.0005)
+
+
+class ComplexRoutingTestCase(TestCase):
+    points = [
+        {
+            "type": "Point",
+            "coordinates": [
                 1.4534568786621094,
                 43.622127847162005
             ]
