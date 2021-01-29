@@ -237,6 +237,24 @@ class ComplexRoutingTestCase(TestCase):
         with self.assertRaises(RoutingException):
             Routing(self.points, feature.layer)
 
+    def test_routing_view_with_polygon(self):
+        """test that a layer with another kind of geometry raise the right exception"""
+        feature = FeatureFactory()
+
+        points = [Point(
+            *p['coordinates'],
+            srid=app_settings.INTERNAL_GEOMETRY_SRID) for p in
+            [self.points[0], self.points[0]]]
+
+        geometry = LineString(*points)
+
+        response = self.client.post(reverse('layer-route',
+                                            args=[feature.layer.pk]),
+                                    {'geom': geometry.geojson, })
+        self.assertEqual(HTTP_400_BAD_REQUEST, response.status_code)
+        error = response.json()['errors'][0]
+        self.assertEqual("Layer is not routable", error)
+
 
 class UpdateTopologyTestCase(TestCase):
     points = [Point(0, 40, srid=app_settings.INTERNAL_GEOMETRY_SRID),
