@@ -81,18 +81,11 @@ class Routing(object):
             # add first and final segments
             segment_1 = LineString(start_point, first_point, srid=app_settings.INTERNAL_GEOMETRY_SRID)
             segment_2 = LineString(end_point, last_point, srid=app_settings.INTERNAL_GEOMETRY_SRID)
-
-            if way.geom_type == "MultiLineString":
-                way_linestrings = [line for line in way]
-                final_way = MultiLineString(*way_linestrings, *[segment_1, segment_2])
-            else:
-                final_way = MultiLineString(*[way, segment_1, segment_2])
-            final_way.simplify(tolerance=app_settings.GEOSTORE_ROUTING_TOLERANCE, preserve_topology=True)
             raw_query_length = "SELECT ST_Length(%s::geography), ST_Length(%s::geography);"
             cursor = connection.cursor()
             cursor.execute(raw_query_length, [segment_1.wkt, segment_2.wkt])
             distance_start, distance_end = cursor.fetchall()[0]
-            return first_point, last_point, round(distance_start, 2), round(distance_end, 2), final_way.merged
+            return first_point, last_point, round(distance_start, 2), round(distance_end, 2), way
 
     @classmethod
     def update_topology(cls, layer, features=None, tolerance=app_settings.GEOSTORE_ROUTING_TOLERANCE, clean=False):

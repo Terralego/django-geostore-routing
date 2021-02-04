@@ -2,6 +2,7 @@ from django.contrib.gis.geos import LineString, Point
 from django.db import connection
 from django.test import TestCase
 from django.urls import reverse
+import json
 from geostore import GeometryTypes
 from geostore.models import Feature, Layer
 from geostore.tests.factories import FeatureFactory, UserFactory
@@ -74,6 +75,9 @@ class RoutingTestCase(TestCase):
         self.assertAlmostEqual(response['waypoints'][1]['coordinates'][0], 1.0005)
         self.assertAlmostEqual(response['waypoints'][1]['coordinates'][1], 43.0005)
 
+        self.assertEqual(response['way'], json.loads(LineString([1.0005, 43.0005], [1.4995, 43.4995],
+                                                                srid=app_settings.INTERNAL_GEOMETRY_SRID).geojson))
+
     def test_routing_view_opposite_order_waypoints(self):
         geometry = LineString([self.out_point_1, self.out_point_2], srid=app_settings.INTERNAL_GEOMETRY_SRID)
         response = self.client.post(reverse('layer-route',
@@ -86,6 +90,9 @@ class RoutingTestCase(TestCase):
         self.assertAlmostEqual(response['waypoints'][1]['coordinates'][1], 43.4995)
         self.assertAlmostEqual(response['waypoints'][0]['coordinates'][0], 1.0005)
         self.assertAlmostEqual(response['waypoints'][0]['coordinates'][1], 43.0005)
+
+        self.assertEqual(response['way'], json.loads(LineString([1.0005, 43.0005], [1.4995, 43.4995],
+                                                                srid=app_settings.INTERNAL_GEOMETRY_SRID).geojson))
 
 
 class ComplexRoutingTestCase(TestCase):
