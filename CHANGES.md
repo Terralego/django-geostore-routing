@@ -1,12 +1,12 @@
 CHANGELOG
 =========
 
-0.9.8.dev0     (XXXX-XX-XX)
+0.9.8          (2021-02-11)
 ---------------------------
 
-* Fix waypoints wrong order
+* Fix waypoints, remove legs between waypoints and start
 
-0.9.7          (2021-12-15)
+0.9.7          (2020-12-15)
 ---------------------------
 
 * Add waypoints with coordinates and distance to route
