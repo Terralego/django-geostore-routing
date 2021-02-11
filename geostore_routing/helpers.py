@@ -43,8 +43,6 @@ class Routing(object):
         self.waypoints = points
         self.points = self._get_points_in_lines(self.waypoints)
         self.routes = self._points_route()
-        self.full_waypoints = [{"coordinates": point.coords, }
-                               for point in points]
 
     def get_route(self):
         """ Return the geometry of the route from the given points """
@@ -70,7 +68,7 @@ class Routing(object):
                 first_point_on_way = Point(way.coords[0])
                 last_point_on_way = Point(way.coords[-1])
             else:
-                return 0, 0, way
+                return Point(), Point(), 0, 0, way
 
             # find closest point for start_point
             if start_point.distance(first_point_on_way) <= start_point.distance(last_point_on_way):
@@ -83,18 +81,11 @@ class Routing(object):
             # add first and final segments
             segment_1 = LineString(start_point, first_point, srid=app_settings.INTERNAL_GEOMETRY_SRID)
             segment_2 = LineString(end_point, last_point, srid=app_settings.INTERNAL_GEOMETRY_SRID)
-
-            if way.geom_type == "MultiLineString":
-                way_linestrings = [line for line in way]
-                final_way = MultiLineString(*way_linestrings, *[segment_1, segment_2])
-            else:
-                final_way = MultiLineString(*[way, segment_1, segment_2])
-            final_way.simplify(tolerance=app_settings.GEOSTORE_ROUTING_TOLERANCE, preserve_topology=True)
             raw_query_length = "SELECT ST_Length(%s::geography), ST_Length(%s::geography);"
             cursor = connection.cursor()
             cursor.execute(raw_query_length, [segment_1.wkt, segment_2.wkt])
             distance_start, distance_end = cursor.fetchall()[0]
-            return round(distance_start, 2), round(distance_end, 2), final_way.merged
+            return first_point, last_point, round(distance_start, 2), round(distance_end, 2), way
 
     @classmethod
     def update_topology(cls, layer, features=None, tolerance=app_settings.GEOSTORE_ROUTING_TOLERANCE, clean=False):

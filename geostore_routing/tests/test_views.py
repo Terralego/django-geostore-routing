@@ -2,6 +2,7 @@ from django.contrib.gis.geos import LineString, Point
 from django.db import connection
 from django.test import TestCase
 from django.urls import reverse
+import json
 from geostore import GeometryTypes
 from geostore.models import Feature, Layer
 from geostore.tests.factories import FeatureFactory, UserFactory
@@ -13,6 +14,88 @@ from geostore_routing.tests.utils import get_files_tests
 
 
 class RoutingTestCase(TestCase):
+    points = [
+        {
+            "type": "Point",
+            "coordinates": [
+                1,
+                43
+            ]
+        }, {
+            "type": "Point",
+            "coordinates": [
+                1.5,
+                43.5
+            ]
+        }
+    ]
+
+    out_points = [
+        {
+            "type": "Point",
+            "coordinates": [
+                1.001,
+                43
+            ]
+        }, {
+            "type": "Point",
+            "coordinates": [
+                1.499,
+                43.5
+            ]
+        }
+    ]
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.layer = Layer.objects.create(name='test_layer', geom_type=GeometryTypes.LineString, routable=True)
+        cls.user = UserFactory(is_superuser=True)
+        cls.point_1 = Point(cls.points[0]["coordinates"])
+        cls.point_2 = Point(cls.points[1]["coordinates"])
+
+        cls.out_point_1 = Point(cls.out_points[0]["coordinates"])
+        cls.out_point_2 = Point(cls.out_points[1]["coordinates"])
+        cls.feature = FeatureFactory.create(geom=LineString([cls.point_1, cls.point_2]), layer=cls.layer)
+
+        Routing.update_topology(cls.layer, tolerance=0.0001)
+
+    def setUp(self):
+        self.client.force_login(self.user)
+
+    def test_routing_view_waypoints(self):
+        geometry = LineString([self.out_point_2, self.out_point_1], srid=app_settings.INTERNAL_GEOMETRY_SRID)
+        response = self.client.post(reverse('layer-route',
+                                            args=[self.layer.pk]),
+                                    {'geom': geometry.geojson, })
+        self.assertEqual(HTTP_200_OK, response.status_code)
+        response = response.json()
+
+        self.assertAlmostEqual(response['waypoints'][0]['coordinates'][0], 1.4995)
+        self.assertAlmostEqual(response['waypoints'][0]['coordinates'][1], 43.4995)
+        self.assertAlmostEqual(response['waypoints'][1]['coordinates'][0], 1.0005)
+        self.assertAlmostEqual(response['waypoints'][1]['coordinates'][1], 43.0005)
+
+        self.assertEqual(response['way'], json.loads(LineString([1.0005, 43.0005], [1.4995, 43.4995],
+                                                                srid=app_settings.INTERNAL_GEOMETRY_SRID).geojson))
+
+    def test_routing_view_opposite_order_waypoints(self):
+        geometry = LineString([self.out_point_1, self.out_point_2], srid=app_settings.INTERNAL_GEOMETRY_SRID)
+        response = self.client.post(reverse('layer-route',
+                                            args=[self.layer.pk]),
+                                    {'geom': geometry.geojson, })
+        self.assertEqual(HTTP_200_OK, response.status_code)
+        response = response.json()
+
+        self.assertAlmostEqual(response['waypoints'][1]['coordinates'][0], 1.4995)
+        self.assertAlmostEqual(response['waypoints'][1]['coordinates'][1], 43.4995)
+        self.assertAlmostEqual(response['waypoints'][0]['coordinates'][0], 1.0005)
+        self.assertAlmostEqual(response['waypoints'][0]['coordinates'][1], 43.0005)
+
+        self.assertEqual(response['way'], json.loads(LineString([1.0005, 43.0005], [1.4995, 43.4995],
+                                                                srid=app_settings.INTERNAL_GEOMETRY_SRID).geojson))
+
+
+class ComplexRoutingTestCase(TestCase):
     points = [
         {
             "type": "Point",
@@ -98,9 +181,9 @@ class RoutingTestCase(TestCase):
         self.assertTrue(points[0].distance(start) <= 0.001)
         self.assertTrue(points[-1].distance(end) <= 0.001)
 
-        self.assertEqual(len(response.get('waypoints')), 3)
+        self.assertEqual(len(response.get('waypoints')), 2)
         first_distance = response.get('waypoints')[0].get('distance')
-        third_distance = response.get('waypoints')[2].get('distance')
+        third_distance = response.get('waypoints')[1].get('distance')
         self.assertEqual(first_distance, 12.0)
         self.assertEqual(third_distance, 6.82)
 
@@ -160,6 +243,24 @@ class RoutingTestCase(TestCase):
 
         with self.assertRaises(RoutingException):
             Routing(self.points, feature.layer)
+
+    def test_routing_view_with_polygon(self):
+        """test that a layer with another kind of geometry raise the right exception"""
+        feature = FeatureFactory()
+
+        points = [Point(
+            *p['coordinates'],
+            srid=app_settings.INTERNAL_GEOMETRY_SRID) for p in
+            [self.points[0], self.points[0]]]
+
+        geometry = LineString(*points)
+
+        response = self.client.post(reverse('layer-route',
+                                            args=[feature.layer.pk]),
+                                    {'geom': geometry.geojson, })
+        self.assertEqual(HTTP_400_BAD_REQUEST, response.status_code)
+        error = response.json()['errors'][0]
+        self.assertEqual("Layer is not routable", error)
 
 
 class UpdateTopologyTestCase(TestCase):
