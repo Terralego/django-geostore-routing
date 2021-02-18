@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-0.9.9.dev0     (XXXX-XX-XX)
+0.9.9          (2021-02-18)
 ---------------------------
 
 * Fix routing without routes
