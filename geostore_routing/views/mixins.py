@@ -27,8 +27,8 @@ class RoutingViewsSetMixin:
                 points = [Point(c, srid=geometry.srid) for c in geometry.coords]
                 routing = Routing(points, layer)
 
-                # if not route:
-                #     return Response(status=status.HTTP_204_NO_CONTENT)
+                if not routing.routes:
+                    return Response(status=status.HTTP_204_NO_CONTENT)
 
                 start_on_way, end_on_way, distance_1, distance_2, way = routing.get_linestring()
 
