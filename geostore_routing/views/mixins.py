@@ -3,7 +3,6 @@ import types
 from django.contrib.gis.geos import Point
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from ..helpers import Routing, RoutingException
@@ -12,8 +11,7 @@ from ..serializers import RoutingSerializer
 
 class RoutingViewsSetMixin:
     @action(detail=True, methods=['post'],
-            serializer_class=RoutingSerializer,
-            permission_classes=[IsAuthenticated])
+            serializer_class=RoutingSerializer)
     def route(self, request, pk=None):
         layer = self.get_object()
         data = request.data
