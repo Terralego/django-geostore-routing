@@ -4,7 +4,7 @@ CHANGELOG
 0.9.9.dev0     (XXXX-XX-XX)
 ---------------------------
 
-* 
+* Fix routing without routes
 
 0.9.8          (2021-02-11)
 ---------------------------

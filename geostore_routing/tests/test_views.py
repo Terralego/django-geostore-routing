@@ -6,7 +6,7 @@ import json
 from geostore import GeometryTypes
 from geostore.models import Feature, Layer
 from geostore.tests.factories import FeatureFactory, UserFactory
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_200_OK, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
 
 from geostore_routing import settings as app_settings
 from geostore_routing.helpers import Routing, RoutingException
@@ -30,6 +30,22 @@ class RoutingTestCase(TestCase):
         }
     ]
 
+    points_second_line = [
+        {
+            "type": "Point",
+            "coordinates": [
+                1.6,
+                43.6
+            ]
+        }, {
+            "type": "Point",
+            "coordinates": [
+                2,
+                44
+            ]
+        }
+    ]
+
     out_points = [
         {
             "type": "Point",
@@ -43,6 +59,13 @@ class RoutingTestCase(TestCase):
                 1.499,
                 43.5
             ]
+        },
+        {
+            "type": "Point",
+            "coordinates": [
+                2.001,
+                44.000
+            ]
         }
     ]
 
@@ -55,12 +78,25 @@ class RoutingTestCase(TestCase):
 
         cls.out_point_1 = Point(cls.out_points[0]["coordinates"])
         cls.out_point_2 = Point(cls.out_points[1]["coordinates"])
-        cls.feature = FeatureFactory.create(geom=LineString([cls.point_1, cls.point_2]), layer=cls.layer)
+        cls.out_point_3 = Point(cls.out_points[2]["coordinates"])
 
+        cls.point_second_line_1 = Point(cls.points_second_line[0]["coordinates"])
+        cls.point_second_line_2 = Point(cls.points_second_line[1]["coordinates"])
+
+        cls.feature = FeatureFactory.create(geom=LineString([cls.point_1, cls.point_2]), layer=cls.layer)
+        cls.feature_2 = FeatureFactory.create(geom=LineString([cls.point_second_line_1,
+                                                               cls.point_second_line_2]), layer=cls.layer)
         Routing.update_topology(cls.layer, tolerance=0.0001)
 
     def setUp(self):
         self.client.force_login(self.user)
+
+    def test_routing_view_no_routes_found(self):
+        geometry = LineString([self.out_point_1, self.out_point_3], srid=app_settings.INTERNAL_GEOMETRY_SRID)
+        response = self.client.post(reverse('layer-route',
+                                            args=[self.layer.pk]),
+                                    {'geom': geometry.geojson, })
+        self.assertEqual(HTTP_204_NO_CONTENT, response.status_code)
 
     def test_routing_view_waypoints(self):
         geometry = LineString([self.out_point_2, self.out_point_1], srid=app_settings.INTERNAL_GEOMETRY_SRID)
