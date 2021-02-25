@@ -1,6 +1,8 @@
 import types
 
 from django.contrib.gis.geos import Point
+from django.utils import translation
+from django.utils.translation import gettext_lazy as _
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -26,7 +28,8 @@ class RoutingViewsSetMixin:
                 routing = Routing(points, layer)
 
                 if not routing.routes:
-                    return Response(status=status.HTTP_204_NO_CONTENT)
+                    data = {"message": _("Way not available")}
+                    return Response(data=data, status=status.HTTP_204_NO_CONTENT)
 
                 start_on_way, end_on_way, distance_1, distance_2, way = routing.get_linestring()
 
