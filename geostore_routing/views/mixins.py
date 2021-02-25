@@ -29,7 +29,7 @@ class RoutingViewsSetMixin:
 
                 if not routing.routes:
                     data = {"message": _("Way not available")}
-                    return Response(data=data, status=status.HTTP_204_NO_CONTENT)
+                    return Response(headers=data, status=status.HTTP_204_NO_CONTENT)
 
                 start_on_way, end_on_way, distance_1, distance_2, way = routing.get_linestring()
 
