@@ -1,7 +1,6 @@
 import types
 
 from django.contrib.gis.geos import Point
-from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 from rest_framework import status
 from rest_framework.decorators import action
