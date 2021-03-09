@@ -28,8 +28,10 @@ class RoutingViewsSetMixin:
                 routing = Routing(points, layer)
 
                 if not routing.routes:
-                    data = {"message": _("Way not available")}
-                    return Response(headers=data, status=status.HTTP_204_NO_CONTENT)
+                    data = {"message": _("Way not available"),
+                            "code": "NoRoute",
+                            "routes": []}
+                    return Response(data, status=response_status)
 
                 start_on_way, end_on_way, distance_1, distance_2, way = routing.get_linestring()
 
