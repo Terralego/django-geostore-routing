@@ -6,7 +6,7 @@ import json
 from geostore import GeometryTypes
 from geostore.models import Feature, Layer
 from geostore.tests.factories import FeatureFactory, UserFactory
-from rest_framework.status import HTTP_200_OK, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 from geostore_routing import settings as app_settings
 from geostore_routing.helpers import Routing, RoutingException
@@ -96,7 +96,7 @@ class RoutingTestCase(TestCase):
         response = self.client.post(reverse('layer-route',
                                             args=[self.layer.pk]),
                                     {'geom': geometry.geojson, })
-        self.assertEqual(HTTP_204_NO_CONTENT, response.status_code)
+        self.assertEqual(HTTP_200_OK, response.status_code)
 
     def test_routing_view_waypoints(self):
         geometry = LineString([self.out_point_2, self.out_point_1], srid=app_settings.INTERNAL_GEOMETRY_SRID)
