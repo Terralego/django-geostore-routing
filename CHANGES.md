@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-0.9.10.dev0     (XXXX-XX-XX)
+0.9.10         (2021-03-09)
 ---------------------------
 
 * Add message no way found
