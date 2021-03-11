@@ -44,6 +44,7 @@ class RoutingViewsSetMixin:
                 serializer.is_valid()
                 data = serializer.data
                 data['geom'] = request.data['geom']
+                print(start_on_way.coords, end_on_way.coords)
                 data['waypoints'] = [{"coordinates": start_on_way.coords, "distance": distance_1},
                                      {"coordinates": end_on_way.coords, "distance": distance_2}]
                 data['callback_id'] = request.data.get('callback_id', None)

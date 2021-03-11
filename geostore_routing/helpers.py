@@ -68,6 +68,7 @@ class Routing(object):
                 first_point_on_way = Point(way.coords[0])
                 last_point_on_way = Point(way.coords[-1])
             else:
+                print(Point())
                 return Point(), Point(), 0, 0, way
 
             # find closest point for start_point
