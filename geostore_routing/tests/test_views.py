@@ -111,7 +111,7 @@ class RoutingTestCase(TestCase):
         self.assertAlmostEqual(response['waypoints'][1]['coordinates'][0], 1.0005)
         self.assertAlmostEqual(response['waypoints'][1]['coordinates'][1], 43.0005)
 
-        self.assertEqual(response['way'], json.loads(LineString([1.0005, 43.0005], [1.4995, 43.4995],
+        self.assertEqual(response['way'], json.loads(LineString([1.4995, 43.4995], [1.0005, 43.0005],
                                                                 srid=app_settings.INTERNAL_GEOMETRY_SRID).geojson))
 
     def test_routing_view_opposite_order_waypoints(self):

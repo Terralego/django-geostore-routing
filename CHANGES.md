@@ -4,6 +4,7 @@ CHANGELOG
 ---------------------------
 
 * Add message no way when on edge cases
+* Reverse way when waypoints are reversed
 
 0.9.10         (2021-03-09)
 ---------------------------
