@@ -3,7 +3,7 @@ CHANGELOG
 0.9.11.dev0     (XXXX-XX-XX)
 ---------------------------
 
-* 
+* Add message no way when on edge cases
 
 0.9.10         (2021-03-09)
 ---------------------------
