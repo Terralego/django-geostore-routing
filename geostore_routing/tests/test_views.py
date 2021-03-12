@@ -236,16 +236,7 @@ class ComplexRoutingTestCase(TestCase):
                                     {'geom': geometry.geojson, })
         self.assertEqual(HTTP_200_OK, response.status_code)
         response = response.json()
-        self.assertEqual(response.get('route').get('type'), 'FeatureCollection')
-        self.assertTrue(len(response.get('route').get('features')) >= 1)
-
-        # Ensure End Points are close to requested points
-        start = Point(*response.get('route').get('features')[0].get('geometry')
-                      .get('coordinates'))
-        end = Point(*response.get('route').get('features')[-1].get('geometry')
-                    .get('coordinates'))
-        self.assertTrue(points[0].distance(start) <= 0.001)
-        self.assertTrue(points[-1].distance(end) <= 0.001)
+        self.assertEqual(response.get('message'), 'Way not available')
 
     def test_routing_cache(self):
         geometry = LineString(*[Point(
