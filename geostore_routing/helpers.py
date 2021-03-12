@@ -77,6 +77,7 @@ class Routing(object):
             else:
                 first_point = last_point_on_way
                 last_point = first_point_on_way
+                way.reverse()
 
             # add first and final segments
             segment_1 = LineString(start_point, first_point, srid=app_settings.INTERNAL_GEOMETRY_SRID)
