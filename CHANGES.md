@@ -1,6 +1,7 @@
 CHANGELOG
 =========
-0.9.11.dev0     (XXXX-XX-XX)
+
+0.9.11         (2021-03-12)
 ---------------------------
 
 * Add message no way when on edge cases
