@@ -25,14 +25,13 @@ class RoutingViewsSetMixin:
             try:
                 points = [Point(c, srid=geometry.srid) for c in geometry.coords]
                 routing = Routing(points, layer)
+                start_on_way, end_on_way, distance_1, distance_2, way = routing.get_linestring()
 
-                if not routing.routes:
+                if not way:
                     data = {"message": _("Way not available"),
                             "code": "NoRoute",
                             "routes": []}
                     return Response(data, status=response_status)
-
-                start_on_way, end_on_way, distance_1, distance_2, way = routing.get_linestring()
 
                 # generate response data by using serializer, to keep serialization rules (precision / perfs.)
                 response = types.SimpleNamespace()
@@ -55,6 +54,5 @@ class RoutingViewsSetMixin:
         else:
             data = serializer.errors
             response_status = status.HTTP_400_BAD_REQUEST
-
         return Response(data,
                         status=response_status)
